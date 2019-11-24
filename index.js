@@ -7,9 +7,13 @@ app.get('/', function(req, res){
 })
 
 io.on('connection', function(socket){
+  io.emit('chat message', 'A user logged in');
   socket.on('chat message', function(msg){
     io.emit('chat message', msg);
   });
+  socket.on('disconnect', function(socket){
+    io.emit('chat message', 'A user logged out')
+  })
 });
 
 http.listen(3000, function(){
