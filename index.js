@@ -7,14 +7,19 @@ app.get('/', function(req, res){
 })
 
 io.on('connection', function(socket){
+
   const userId = socket.id;
+
   io.emit('chat message', `A user logged in, id: ${userId}`);
+
   socket.on('chat message', function(msg){
     io.emit('chat message', msg);
   });
-  socket.on('disconnect', function(socket){
+  
+  socket.on('disconnect', function(){
     io.emit('chat message', `User ${userId} logged out`);
   });
+  
 });
 
 http.listen(3000, function(){
